@@ -188,12 +188,12 @@ public class PlayerController : MonoBehaviour
         // inner function
         RaycastHit GetFloorWithBoxCasting()
         {
-            // 0.21 = 0.3 / sqrt(2) ... 0.3 : radius of player
-            var boxSize = new Vector3(0.21f, raycastOriginHeight * 0.5f, 0.21f);
+            // 0.2 ... 0.3 / sqrt(2) ... 0.3 : radius of player
+            var boxSize = new Vector3(0.2f, raycastOriginHeight - offset, 0.2f);
             var direction = new Vector3(0.0f, -1.0f, 0.0f);
 
             var layer = 1 << 6;
-            var origin = Rb.position + new Vector3(0.0f, raycastOriginHeight, 0.0f);
+            var origin = Rb.position + new Vector3(0.0f, raycastOriginHeight + offset, 0.0f);
             var quaternion = Quaternion.Euler(0.0f, mainCamera.transform.rotation.eulerAngles.y, 0.0f);
 
             Physics.BoxCast(origin, boxSize, direction, out RaycastHit hit, quaternion, Mathf.Infinity, layer, QueryTriggerInteraction.Ignore);
