@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class ViewController : MonoBehaviour
 {
-    [SerializeField] float sensitibity = 1.0f;
+    [SerializeField] float sensitivity = 1.0f;
 
-    static public float RotYp { get; private set; }
-
-    static public float DegRotZ { get; set; }
-    static public float DegRotX { get; set; }
-    static public float DegRotY { get; set; }
+    static public float DegRotZ { get; private set; }
+    static public float DegRotX { get; private set; }
+    static public float DegRotY { get; private set; }
 
     void Start()
     {
@@ -19,10 +17,8 @@ public class ViewController : MonoBehaviour
 
     void Update()
     {
-        RotYp = DegRotY;
-
-        DegRotX -= Input.GetAxis("Mouse Y") * sensitibity;
-        DegRotY += Input.GetAxis("Mouse X") * sensitibity;
+        DegRotX -= Input.GetAxis("Mouse Y") * sensitivity;
+        DegRotY += Input.GetAxis("Mouse X") * sensitivity;
 
         if (DegRotX > 90.0f) { DegRotX = 90.0f; }
         if (DegRotX < -90.0f) { DegRotX = -90.0f; }

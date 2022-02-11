@@ -4,62 +4,87 @@ using UnityEngine;
 
 public class VectorPreview : MonoBehaviour
 {
-    [SerializeField] float lineWidth = 0.2f;
+    [SerializeField] GameObject mainCamera;
 
-    [SerializeField] float magnify_mainVector = 1.0f;
-    [SerializeField] float magnify_inputVector = 1.0f;
-    [SerializeField] float magnify_addVector = 1.0f;
-    [SerializeField] float magnify_nextMainVector = 1.0f;
+    [SerializeField] bool showPreview = true;
 
-    GameObject zx_mainVector;
-    GameObject zx_inputVector;
-    GameObject zx_addVector;
-    GameObject zx_nextMainVector;
-    GameObject isJumping;
+    [SerializeField] float lineWidth = 2.0f;
+
+    [SerializeField] float defaultMagnification = 10.0f;
+
+    [SerializeField] float inputVectorMagnification = 1.0f;
+    [SerializeField] float addVectorMagnification = 1.0f;
+    [SerializeField] float mainVectorMagnification = 1.0f;
+
+    GameObject container;
+
+    RectTransform isJumping;
+    RectTransform mainVector;
+    RectTransform inputVector;
+    RectTransform addVector;
 
     void Start()
     {
-        zx_mainVector = gameObject.transform.GetChild(0).gameObject;
-        zx_inputVector = gameObject.transform.GetChild(1).gameObject;
-        zx_addVector = gameObject.transform.GetChild(2).gameObject;
-        zx_nextMainVector = gameObject.transform.GetChild(3).gameObject;
-        isJumping = gameObject.transform.GetChild(4).gameObject;
+        container = gameObject.transform.GetChild(0).gameObject;
+
+        GetRectTransforms();
+    }
+
+    void GetRectTransforms()
+    {
+        isJumping = GetRect(0);
+        mainVector = GetRect(1);
+        inputVector = GetRect(2);
+        addVector = GetRect(3);
+
+        // inner function
+        RectTransform GetRect(int n)
+        {
+            return gameObject.transform.GetChild(0).GetChild(n).gameObject.GetComponent<RectTransform>();
+        }
     }
 
     void Update()
     {
-        SetScaleAndRotation(zx_mainVector, GroundCharCtrl.ZX_MainVector, magnify_mainVector);
-        SetScaleAndRotation(zx_inputVector, GroundCharCtrl.ZX_InputVector, magnify_inputVector * GroundCharCtrl.CurrentSpeed);
-        SetScaleAndRotation(zx_addVector, GroundCharCtrl.ZX_AddVector, magnify_addVector);
-        SetScaleAndRotation(zx_nextMainVector, GroundCharCtrl.ZX_MainVector, magnify_nextMainVector);
-
-        if (CharCtrl.IsJumping)
+        if (!showPreview)
         {
-            isJumping.SetActive(true);
+            container.SetActive(false);
+            return;
+        }
+
+        container.SetActive(true);
+
+        if (PlayerController.ZX_CurrentVector == null) { return; }
+        if (PlayerController.ZX_InputVector == null) { return; }
+        if (PlayerControllerSub.ZX_AddVector == null) { return; }
+
+        SetScaleAndRotation(mainVector, PlayerController.ZX_CurrentVector, mainVectorMagnification);
+        SetScaleAndRotation(inputVector, PlayerController.ZX_InputVector,inputVectorMagnification * PlayerControllerSub.MagnitudeOfProjection);
+        SetScaleAndRotation(addVector, PlayerControllerSub.ZX_AddVector, addVectorMagnification);
+
+        if (PlayerController.IsJumping)
+        {
+            isJumping.gameObject. SetActive(true);
+            isJumping.sizeDelta = new Vector2(2.0f * lineWidth, 2.0f * lineWidth);
         }
 
         else
         {
-            isJumping.SetActive(false);
+            isJumping.gameObject.SetActive(false);
         }
     }
 
-    void SetScaleAndRotation(GameObject line, float[] zx_vector, float magnify)
+    void SetScaleAndRotation(RectTransform line, float[] zx_vector, float magnify)
     {
         var magnitude = Vecf.Magnitude(zx_vector);
 
-        line.transform.localScale = new Vector3(lineWidth, lineWidth, magnitude * magnify);
+        line.sizeDelta = new Vector2(lineWidth, magnitude * magnify * defaultMagnification);
 
         var vecDir = Mathf.Atan2(zx_vector[1], zx_vector[0]) * Mathf.Rad2Deg;
-        var viewDir = Correct(ViewController.DegRotY);
+        var viewDir = mainCamera.transform.rotation.eulerAngles.y;
 
-        var theta = vecDir - viewDir;
+        var rotY = viewDir - vecDir;
 
-        line.transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f);
-    }
-
-    float Correct(float deg)
-    {
-        return deg % 360.0f;
+        line.rotation = Quaternion.Euler(0.0f, 0.0f, rotY);
     }
 }
