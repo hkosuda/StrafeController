@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Chess
+  m_Name: ChessBlue
   m_Shader: {fileID: 4800000, guid: 03be9a1bfbab52248981f939dd6b51a9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -77,8 +77,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
-    - _Color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+    - _Color1: {r: 0.4, g: 0.4, b: 0.6, a: 1}
+    - _Color2: {r: 0.5, g: 0.5, b: 0.7, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SideColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Chess
-  m_Shader: {fileID: 4800000, guid: 03be9a1bfbab52248981f939dd6b51a9, type: 3}
+  m_Name: Slope
+  m_Shader: {fileID: 4800000, guid: 22dede306477b2d4d921974c0dc69cf3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -63,22 +63,20 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _LatticeSize: 10
+    - _LineWidth: 0.1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OffsetX: 0
-    - _OffsetZ: 0
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SquareSize: 3
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
-    - _Color2: {r: 0.4, g: 0.4, b: 0.4, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SideColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LineColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    - _MainColor: {r: 0.5, g: 0.6, b: 0.5, a: 1}
   m_BuildTextureStacks: []

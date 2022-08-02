@@ -4,7 +4,11 @@ Shader "Custom/Chess"
 	{
 		_Color1("Color1", Color) = (1,1,1,1)
 		_Color2("Color2", Color) = (0,0,0,1)
+		_SideColor("Side Color", Color) = (0,0,0,1)
+
 		_SquareSize("SquareSize", Float) = 1.0
+		_OffsetX ("Offset X", Float) = 0.0
+		_OffsetZ ("Offset Z", Float) = 0.0
 	}
 
 		SubShader
@@ -16,26 +20,39 @@ Shader "Custom/Chess"
 		#pragma surface surf Standard 
 		#pragma target 3.0
 
-		fixed4 _Color1;
-		fixed4 _Color2;
+		half4 _Color1;
+		half4 _Color2;
+		half4 _SideColor;
+
 		half _SquareSize;
+		half _OffsetX;
+		half _OffsetZ;
 
 		struct Input
 		{
-			float3 worldPos;
+			half3 worldPos;
+			half3 worldNormal;
 		};
 
 		void surf(Input IN, inout SurfaceOutputStandard o)
 		{
-			uint row = round(abs(IN.worldPos.z / _SquareSize));
-			uint col = round(abs(IN.worldPos.x / _SquareSize));
+			if (IN.worldNormal.y > 0.99)
+			{
+				uint row = round(abs(IN.worldPos.z - _OffsetZ) / _SquareSize);
+				uint col = round(abs(IN.worldPos.x - _OffsetX) / _SquareSize);
 
-			if ((col + row) % 2 == 1) {
-				o.Albedo = _Color1;
+				if ((col + row) % 2 == 1) {
+					o.Albedo = _Color1;
+				}
+
+				else {
+					o.Albedo = _Color2;
+				}
 			}
-
-			else {
-				o.Albedo = _Color2;
+			
+			else
+			{
+				o.Albedo = _SideColor;
 			}
 		}
 	ENDCG
